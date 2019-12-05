@@ -1,0 +1,33 @@
+version: '3'
+services: 
+    master:
+        build: 
+            dockerfile: Master/Dockerfile
+            context: .
+        restart: always
+        image: master_psql
+        container_name: master_psql
+        ports: 
+            - 5432:5432
+        volumes: 
+            - ./master_volume:/var/lib/postgresql/data
+        networks: 
+            - psql-network
+    
+    slave:
+        build:
+            dockerfile: ./Slave/Dockerfile
+            context: .
+        restart: always
+        image: slave
+        container_name: slave_psql
+        ports: 
+            - 5433:5432
+        volumes: 
+            - ./slave_volume:/var/lib/postgresql/data
+        networks: 
+            - psql-network
+
+networks: 
+    psql-network:
+        driver: bridge
