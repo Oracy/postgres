@@ -2,11 +2,12 @@ version: '3'
 services: 
     master:
         build: 
-            dockerfile: Master/Dockerfile
+            dockerfile: ./Master/Dockerfile
             context: .
         restart: always
         image: master_psql
-        container_name: master_psql
+        container_name: master
+        hostname: master
         ports: 
             - 5432:5432
         volumes: 
@@ -19,14 +20,17 @@ services:
             dockerfile: ./Slave/Dockerfile
             context: .
         restart: always
-        image: slave
-        container_name: slave_psql
+        image: slave_psql
+        container_name: slave
+        hostname: slave
         ports: 
             - 5433:5432
         volumes: 
             - ./slave_volume:/var/lib/postgresql/data
         networks: 
             - psql-network
+        depends_on: 
+            - master
 
 networks: 
     psql-network:
