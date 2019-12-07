@@ -11,7 +11,11 @@ Copia seguranca nivel arquivo
 ---
 
 [WAL](http://pgdocptbr.sourceforge.net/pg80/backup-online.html)
+
 Copia seguranca nivel Linha
+
+WAL writer 	This process writes and flushes periodically the WAL data on the WAL buffer to persistent storage
+The WAL mechanism was first implemented in version 7.1 to mitigate the impacts of server crashes. It also made possible the implementation of the Point-in-Time Recovery (PITR) and Streaming Replication (SR), both of which are described in Chapter 10 and Chapter 11 respectively. 
 
 O WAL existe, principalmente, com a finalidade de fornecer segurança contra quedas: se o sistema cair, o banco de dados pode retornar a um estado consistente "refazendo" as entradas gravadas desde o último ponto de verificação.
 Combinar a cópia de segurança do banco de dados no nível de sistema de arquivos, com cópia dos arquivos de segmento do WAL. Se for necessário fazer a recuperação, pode ser feita a recuperação da cópia de segurança do banco de dados no nível de sistema de arquivos e, depois, refeitas as alterações a partir da cópia dos arquivos de segmento do WAL, para trazer a restauração para o tempo presente.
@@ -26,8 +30,13 @@ Alta confiabilidade
 
 **Para fazer uma recuperação bem-sucedida utilizando cópia de segurança em-linha, é necessária uma seqüência contínua de arquivos de segmento do WAL guardados, que venha desde, pelo menos, o instante em que foi feita a cópia de segurança base do banco de dados. Para começar, deve ser configurado e testado o procedimento para fazer cópia dos arquivos de segmento do WAL, antes de ser feita a cópia de segurança base do banco de dados. Assim sendo, primeiro será explicada a mecânica para fazer cópia dos arquivos de segmento do WAL.**
 
+---
 
-
-
-# 22.3.2. Criação da cópia de segurança base
-
+- The logical and physical structures of the WAL (transaction log)
+- The internal layout of WAL data
+- Writing of WAL data
+- WAL writer process
+- The checkpoint processing
+- The database recovery processing
+- Managing WAL segment files
+- Continuous archiving
