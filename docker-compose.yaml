@@ -11,7 +11,8 @@ services:
         ports: 
             - 5432:5432
         volumes: 
-            - ./master_volume:/var/lib/postgresql/data:z
+            - ./master_volume/data:/var/lib/postgresql/data
+            - ./master_volume/wal:/var/lib/postgresql/mnt
         networks: 
             - psql_network
     
@@ -26,7 +27,8 @@ services:
         ports: 
             - 5433:5432
         volumes: 
-            - ./slave_volume:/var/lib/postgresql/data:z
+            - ./slave_volume/data:/var/lib/postgresql/data
+            - ./master_volume/wal:/var/lib/postgresql/mnt
         networks: 
             - psql_network
         depends_on: 
