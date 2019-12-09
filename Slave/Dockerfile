@@ -5,10 +5,9 @@ RUN apt update && \
     net-tools \
     iputils-ping
 
-COPY ./Slave/postgresql.conf /postgresql.conf
-COPY ./Slave/recovery.conf /recovery.conf
+# COPY ./Slave/postgresql.conf /postgresql.conf
+# COPY ./Slave/recovery.conf /recovery.conf
 
-COPY ./Scripts/set-config_slave.sh /docker-entrypoint-initdb.d/set-config_slave.sh
-COPY ./Scripts/init.sql /docker-entrypoint-initdb.d/
+# COPY ./Scripts/init.sql /docker-entrypoint-initdb.d/
 
 EXPOSE 5433
