@@ -2,7 +2,8 @@ FROM postgres:12
 
 RUN apt update && \
     apt install -y vim-tiny \
-    net-tools
+    net-tools \
+    iputils-ping
 
 COPY ./Slave/postgresql.conf /postgresql.conf
 COPY ./Slave/recovery.conf /recovery.conf

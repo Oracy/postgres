@@ -11,10 +11,9 @@ services:
         ports: 
             - 5432:5432
         volumes: 
-            - ./master_volume:/var/lib/postgresql
+            - ./master_volume:/var/lib/postgresql/data:z
         networks: 
-            psql-network:
-                ipv4_address: 192.168.200.2
+            - psql_network
     
     slave:
         build:
@@ -27,16 +26,12 @@ services:
         ports: 
             - 5433:5432
         volumes: 
-            - ./slave_volume:/var/lib/postgresql
+            - ./slave_volume:/var/lib/postgresql/data:z
         networks: 
-            psql-network:
-                ipv4_address: 192.168.200.3
+            - psql_network
         depends_on: 
             - master
 
 networks: 
-    psql-network:
+    psql_network:
         driver: bridge
-        ipam: 
-            config: 
-                - subnet: 192.168.200.0/24

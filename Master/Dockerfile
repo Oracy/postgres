@@ -2,7 +2,8 @@ FROM postgres:12
 
 RUN apt update && \
     apt install -y vim-tiny \
-    net-tools
+    net-tools \
+    iputils-ping
 
 COPY ./Master/postgresql.conf /postgresql.conf
 COPY ./Master/pg_hba.conf /pg_hba.conf
