@@ -41,16 +41,22 @@ Alta confiabilidade
 - Managing WAL segment files
 - Continuous archiving
 
+---
 
+1. O que eh WAL?
+    - WAL eh um arquivo fisico onde as transacoes sao salvas e os servidores de banco de dados utilizam as informacoes la dentro para persistirem as alteracoes em disco.
 
-O que eh WAL?
-WAL eh um arquivo fisico onde as transacoes sao salvas e os servidores de banco de dados utilizam as informacoes la dentro para persistirem as alteracoes em disco.
+2. Como WAL funciona
+    - WAL ( write ahead log ) eh uma tecnica de processamento dos dados que ao inves de fazer a escrita instantanea no banco de dados, ha um armazenamento fisico em um arquivo (WAL) de toda a transacao, para que esta transacao seja realmente concretizada no momento em que estes dados sao persistidos no banco de dados, para caso haja algum tipo de problema como uma queda de energia ou algum erro no servidor, nao tenha a perda de dados durante este periodo e tenha uma maneira facil de fazer replicacao, onde um ou mais bancos em standby podem ouvir este mesmo arquivo e replicar estas informacoes em outras bases de dados. Com isto tambem eh mais facil de retomar um momento especifico que esta armazenado neste arquivo WAL.
 
-Como WAL funciona
-WAL ( write ahead log ) eh uma tecnica de processamento dos dados que ao inves de fazer a escrita instantanea no banco de dados, ha um armazenamento fisico em um arquivo (WAL) de toda a transacao, para que esta transacao seja realmente concretizada no momento em que estes dados sao persistidos no banco de dados, para caso haja algum tipo de problema como uma queda de energia ou algum erro no servidor, nao tenha a perda de dados durante este periodo e tenha uma maneira facil de fazer replicacao, onde um ou mais bancos em standby podem ouvir este mesmo arquivo e replicar estas informacoes em outras bases de dados. Com isto tambem eh mais facil de retomar um momento especifico que esta armazenado neste arquivo WAL.
+3. O que eh REDO?
+    - REDO eh a acao de poder fazer um "redone" das transacoes que nao foram persistidas no banco por algum tipo de problema (queda de energia, ou outro problema nos servidores)
 
-O que eh REDO?
-REDO eh a acao de poder fazer um "redone" das transacoes que nao foram persistidas no banco por algum tipo de problema (queda de energia, ou outro problema nos servidores)
+4. Como funciona o REDO?
+    - Como as informacoes das transacoes estao salvas no arquivo WAL, entao ao inves de toda requisicao ir direto ao banco e fazer o commit, estas informacoes sao salvas no arquivo WAL, e so entao que ha a transacao persistida em disco, porem se houver algum tipo de problema neste meio caminho e a transacao nao puder ter sido concluida, entao eh possivel ser feito um "REDONE" a partir do momento em que houve esta falha, sem haver perda de dados e/ou perda de consistencia no banco.
 
-Como funciona o REDO?
-Como as informacoes das transacoes estao salvas no arquivo WAL, entao ao inves de toda requisicao ir direto ao banco e fazer o commit, estas informacoes sao salvas no arquivo WAL, e so entao que ha a transacao persistida em disco, porem se houver algum tipo de problema neste meio caminho e a transacao nao puder ter sido concluida, entao eh possivel ser feito um "REDONE" a partir do momento em que houve esta falha, sem haver perda de dados e/ou perda de consistencia no banco.
+5. O que acontece quando os arquivos WAL são persistidos no banco de dados?
+
+6. O que acontece quando os arquivos WAL nao sao persistidos no banco de dados e chegam ao limite do chunk (80mb ou 5 arquivos)?
+
+---
