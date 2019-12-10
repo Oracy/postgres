@@ -11,4 +11,5 @@ sudo su
 ```
 
 Default user to test replication is: `docker` and password `docker`
+
 Replication user is: `repuser` and password `replication`
