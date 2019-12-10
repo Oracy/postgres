@@ -1,4 +1,4 @@
-FROM postgres:10
+FROM postgres:9.5
 
 RUN apt update && \
     apt install -y vim-tiny \

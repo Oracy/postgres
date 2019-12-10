@@ -8,11 +8,13 @@ services:
         image: master_psql
         container_name: master
         hostname: master
+        environment: 
+            - POSTGRES_USER=docker
+            - POSTGRES_PASSWORD=docker
         ports: 
             - 5432:5432
         volumes: 
-            - ./master_volume/data:/var/lib/postgresql/data
-            - ./master_volume/wal:/var/lib/postgresql/mnt
+            - ./master_volume/postgres:/var/lib/postgresql/data
         networks: 
             - psql_network
     
@@ -24,11 +26,13 @@ services:
         image: slave_psql
         container_name: slave
         hostname: slave
+        environment: 
+            - POSTGRES_USER=docker
+            - POSTGRES_PASSWORD=docker
         ports: 
             - 5433:5432
         volumes: 
-            - ./slave_volume/data:/var/lib/postgresql/data
-            - ./master_volume/wal:/var/lib/postgresql/mnt
+            - ./slave_volume:/var/lib/postgresql/data
         networks: 
             - psql_network
         depends_on: 

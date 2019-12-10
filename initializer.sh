@@ -7,6 +7,7 @@ else
 fi
 echo '#######################################################################'
 
+
 echo 'Removing containers "Master" and "Slave"' | tee -a ./logs/initializer.log
 docker rm master slave 2>> ./logs/initializer.log
 if [ $? -eq 0 ]; then
@@ -15,6 +16,7 @@ else
     printf '\e[91mThere is no containers yet \e[0m\n' | tee -a ./logs/initializer.log
 fi
 echo '#######################################################################'
+
 
 echo 'Removing images "Master_psql" and "Slave_psql"' | tee -a ./logs/initializer.log
 docker rmi master_psql:latest slave_psql:latest 2>> ./logs/initializer.log
@@ -25,6 +27,7 @@ else
 fi
 echo '#######################################################################'
 
+
 echo 'Removing volumes to create new containers "master_volume" "slave_volume"' | tee -a ./logs/initializer.log
 sudo rm -rf master_volume slave_volume 2>> ./logs/initializer.log
 if [ $? -eq 0 ]; then
@@ -34,44 +37,50 @@ else
 fi
 echo '#######################################################################'
 
-echo 'Starting containers' | tee -a ./logs/initializer.log
-docker-compose up -d 2>> ./logs/initializer.log
+
+echo 'Check if there is postgres installed'
+apt-cache policy postgresql | grep Installed | grep none
 if [ $? -eq 0 ]; then
-    printf '\e[92mContainers Started \e[0m\n' | tee -a ./logs/initializer.log
+    printf '\e[92mPostgreSQL is already installed \e[0m\n' | tee -a ./logs/initializer.log
 else
-    printf '\e[91mContainers cant up \e[0m\n' | tee -a ./logs/initializer.log
+    sudo apt install -y postgresql postgresql-contrib 
 fi
 echo '#######################################################################'
 
-echo 'Stopping Slave container' | tee -a ./logs/initializer.log
-docker stop slave 2>> ./logs/initializer.log
+
+echo 'Starting master container' | tee -a ./logs/initializer.log
+docker-compose up -d master 2>> ./logs/initializer.log
 if [ $? -eq 0 ]; then
-    printf '\e[92mSlave stopped \e[0m\n' | tee -a ./logs/initializer.log
+    printf '\e[92mMaster Started \e[0m\n' | tee -a ./logs/initializer.log
 else
-    printf '\e[91mSlave not stopped \e[0m\n' | tee -a ./logs/initializer.log
+    printf '\e[91mMaster cant up \e[0m\n' | tee -a ./logs/initializer.log
 fi
 echo '#######################################################################'
 
-echo 'Removing slave data' | tee -a ./logs/initializer.log
-sudo rm -rf slave_volume/* 2>> ./logs/initializer.log
+
+echo 'Restarting Master container' | tee -a ./logs/initializer.log
+docker restart master 2>> ./logs/initializer.log
 if [ $? -eq 0 ]; then
-    printf '\e[92mSlave Data has been Removed \e[0m\n' | tee -a ./logs/initializer.log
+    printf '\e[92mMaster restarted \e[0m\n' | tee -a ./logs/initializer.log
 else
-    printf '\e[91mThere is no Slave Data folder yet \e[0m\n' | tee -a ./logs/initializer.log
+    printf '\e[91mMaster failed \e[0m\n' | tee -a ./logs/initializer.log
 fi
 echo '#######################################################################'
 
-echo 'Copying from master to slave' | tee -a ./logs/initializer.log
-sudo cp -r ./master_volume/* ./slave_volume/ 2>> ./logs/initializer.log
+
+echo 'Backuping master container' | tee -a ./logs/initializer.log
+sleep 10
+pg_basebackup -h 127.0.0.1 -p 5432 -D ./slave_volume -U replicator -P -v
 if [ $? -eq 0 ]; then
-    printf '\e[92mMaster Volume copied \e[0m\n' | tee -a ./logs/initializer.log
+    printf '\e[92mBackup Ok \e[0m\n' | tee -a ./logs/initializer.log
 else
-    printf '\e[91mMaster Volume Error on copy \e[0m\n' | tee -a ./logs/initializer.log
+    printf '\e[91mBackup Error \e[0m\n' | tee -a ./logs/initializer.log
 fi
 echo '#######################################################################'
 
-echo 'Copying configuration files from master_volume to slave_volume' | tee -a ./logs/initializer.log
-sudo cp ./Slave/*.conf slave_volume/data/ 2>> ./logs/initializer.log
+
+echo 'Copying recovery file recovery.conf to slave_volume' | tee -a ./logs/initializer.log
+sudo cp ./Slave/recovery.conf ./slave_volume 2>> ./logs/initializer.log
 if [ $? -eq 0 ]; then
     printf '\e[92mSlave/.*conf copied \e[0m\n' | tee -a ./logs/initializer.log
 else
@@ -79,15 +88,18 @@ else
 fi
 echo '#######################################################################'
 
-echo 'Restarting Containers' | tee -a ./logs/initializer.log
-docker start slave 2>> ./logs/initializer.log
+
+echo 'Starting Slave Container' | tee -a ./logs/initializer.log
+sudo docker-compose up -d slave 2>> ./logs/initializer.log
 if [ $? -eq 0 ]; then
     printf '\e[92mSlave started \e[0m\n' | tee -a ./logs/initializer.log
 else
     printf '\e[91mSlave Error on Start \e[0m\n' | tee -a ./logs/initializer.log
 fi
 
+
 echo 'Check logs on ./logs/initializer.log'
+
 
 echo '\e[92m#######################################################################' | tee -a ./logs/initializer.log
 echo '#               To access database you should use ip:                 #' | tee -a ./logs/initializer.log
