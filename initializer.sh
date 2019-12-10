@@ -93,4 +93,5 @@ echo '\e[92m####################################################################
 echo '#               To access database you should use ip:                 #' | tee -a ./logs/initializer.log
 echo '#                        Master': `docker inspect master | grep -E '"IPAddress": "\w' | awk {'print $2'} | sed -r 's/"//g' | sed -r 's/,//g'`':5432                      #' | tee -a ./logs/initializer.log
 echo '#                        Slave': `docker inspect slave | grep -E '"IPAddress": "\w' | awk {'print $2'} | sed -r 's/"//g' | sed -r 's/,//g'`':5433                       #' | tee -a ./logs/initializer.log
-echo '#######################################################################' | tee -a ./logs/initializer.log
+echo '####################################################################### \e[0m\n' | tee -a ./logs/initializer.log
+echo 'Finished' | tee -a ./logs/initializer.log

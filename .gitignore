@@ -1,3 +1,4 @@
 .history
 slave_volume
 master_volume
+logs/*
