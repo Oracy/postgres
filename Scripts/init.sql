@@ -6,3 +6,4 @@
 -- SELECT * FROM pg_create_physical_replication_slot('replicator');
 -- CREATE USER repuser SUPERUSER LOGIN CONNECTION LIMIT 1 ENCRYPTED PASSWORD 'changeme';
 CREATE USER replicator REPLICATION LOGIN ENCRYPTED PASSWORD 'replpass';
+-- select * from pg_create_physical_replication_slot('standby_replication_slot');
