@@ -26,7 +26,7 @@ Restart master `docker restart master`
 
 Then access remotely master server to create replication slot to avoid problem if slave serve go down and lost some WAL position, and then REDO from this replication slot.
 ```bash
-psql -h 127.0.0.1 -p 5432 -U docker -d postgres
+psql -h 127.0.0.1 -p 5432 -U docker
 select * from pg_replication_slots;
 ```
 
