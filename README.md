@@ -28,6 +28,7 @@ su - ${USER}
 id -nG
 sudo usermod -aG docker username
 ```
+
 ---
 
 Install [Docker-Compose](https://docs.docker.com/compose/install/)
@@ -39,6 +40,9 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 docker-compose --version
 ```
 
+---
+
+Run script to start the magic
 
 ```bash
 # make script executable
@@ -51,7 +55,7 @@ Password for user `docker` is `docker`
 
 After script finish, add line below into `./master_volume/postgres/postgresql.conf`
 
-```
+```bash
 sudo vi ./master_volume/postgres/postgresql.conf
 max_replication_slots = 1
 ```
@@ -59,6 +63,7 @@ max_replication_slots = 1
 Restart master `docker restart master`
 
 Then access remotely master server to create replication slot to avoid problem if slave serve go down and lost some WAL position, and then REDO from this replication slot.
+
 ```bash
 psql -h 127.0.0.1 -p 5432 -U docker
 select * from pg_replication_slots;
