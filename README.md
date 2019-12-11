@@ -6,13 +6,15 @@ Postgres master and slave (standby) servers working with Docker.
 
 To run this project follow steps below:
 
-##### Prerequisites:
+## Prerequisites:
 
 ```bash
 sudo apt install -y git
 sudo apt install -y postgresql postgresql-contrib postgresql-client-common
 sudo /etc/init.d/postgresql stop
 ```
+
+---
 
 Install [Docker](https://www.digitalocean.com/community/tutorials/como-instalar-e-usar-o-docker-no-ubuntu-18-04-pt)
 
