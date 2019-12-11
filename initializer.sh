@@ -38,13 +38,13 @@ fi
 echo '#######################################################################'
 
 
-echo 'Check if there is postgres installed'
-apt-cache policy postgresql | grep Installed | grep none
-if [ $? -eq 0 ]; then
-    printf '\e[92mPostgreSQL is already installed \e[0m\n' | tee -a ./logs/initializer.log
-else
-    sudo apt install -y postgresql postgresql-contrib 
-fi
+# echo 'Check if there is postgres installed'
+# apt-cache policy postgresql | grep Installed | grep none
+# if [ $? -eq 0 ]; then
+#     printf '\e[92mPostgreSQL is already installed \e[0m\n' | tee -a ./logs/initializer.log
+# else
+sudo apt install -y postgresql postgresql-contrib postgresql-client-common
+# fi
 echo '#######################################################################'
 
 
