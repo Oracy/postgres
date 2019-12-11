@@ -42,7 +42,7 @@ docker-compose --version
 
 ---
 
-Run script to start the magic
+### Run script to start the magic
 
 ```bash
 # make script executable
