@@ -31,6 +31,7 @@ select * from pg_replication_slots;
 ```
 
 Expected result:
+
 slot_name | plugin | slot_type | datoid | database | active | active_pid | xmin | catalog_xmin | restart_lsn 
 -----------|--------|-----------|--------|----------|--------|------------|------|--------------|-------------
 |||||||||
@@ -39,6 +40,7 @@ Create slot on master:
 `select * from pg_create_physical_replication_slot('standby_replication_slot');`
 
 Expected result:
+
 slot_name         | xlog_position 
 --------------------------|---------------
 standby_replication_slot | 
@@ -47,6 +49,9 @@ Restart slave server after command above `docker restart slave`
 
 After some seconds run command below to check if everything is fine.
 `select * from pg_replication_slots;`
+
+Expected result:
+
 slot_name         | plugin | slot_type | datoid | database | active | active_pid | xmin | catalog_xmin | restart_lsn 
 --------------------------|--------|-----------|--------|----------|--------|------------|------|--------------|-------------
 standby_replication_slot |        | physical  |        |          | t      |         44 |      |              | 0/3000108
