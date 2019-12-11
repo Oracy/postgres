@@ -1,12 +1,10 @@
 # Postgres Running with WAL
 
----
-
 Postgres master and slave (standby) servers working with Docker.
 
 To run this project follow steps below:
 
-## Prerequisites:
+## Prerequisites
 
 ```bash
 sudo apt install -y git
@@ -44,7 +42,7 @@ docker-compose --version
 
 ---
 
-**Run script to start the magic**
+Run script to start the magic
 
 ```bash
 # make script executable
@@ -73,7 +71,7 @@ select * from pg_replication_slots;
 
 **Expected result:**
 
-slot_name | plugin | slot_type | datoid | database | active | active_pid | xmin | catalog_xmin | restart_lsn 
+slot_name | plugin | slot_type | datoid | database | active | active_pid | xmin | catalog_xmin | restart_lsn
 -----------|--------|-----------|--------|----------|--------|------------|------|--------------|-------------
 |||||||||
 
@@ -82,16 +80,16 @@ Create slot on master:
 
 **Expected result:**
 
-slot_name         | xlog_position 
+slot_name         | xlog_position
 --------------------------|---------------
-standby_replication_slot | 
+standby_replication_slot |
 
 After some seconds run command below to check if everything is fine.
 `select * from pg_replication_slots;`
 
 **Expected result:**
 
-slot_name         | plugin | slot_type | datoid | database | active | active_pid | xmin | catalog_xmin | restart_lsn 
+slot_name         | plugin | slot_type | datoid | database | active | active_pid | xmin | catalog_xmin | restart_lsn
 --------------------------|--------|-----------|--------|----------|--------|------------|------|--------------|-------------
 standby_replication_slot |        | physical  |        |          | t      |         44 |      |              | 0/3000108
 
