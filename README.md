@@ -16,7 +16,7 @@ sudo /etc/init.d/postgresql stop
 
 ---
 
-Install [Docker](https://www.digitalocean.com/community/tutorials/como-instalar-e-usar-o-docker-no-ubuntu-18-04-pt)
+**Install [Docker](https://www.digitalocean.com/community/tutorials/como-instalar-e-usar-o-docker-no-ubuntu-18-04-pt)**
 
 ```bash
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
@@ -33,7 +33,7 @@ sudo usermod -aG docker username
 
 ---
 
-Install [Docker-Compose](https://docs.docker.com/compose/install/)
+**Install [Docker-Compose](https://docs.docker.com/compose/install/)**
 
 ```bash
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -44,7 +44,7 @@ docker-compose --version
 
 ---
 
-Run script to start the magic
+**Run script to start the magic**
 
 ```bash
 # make script executable
@@ -71,7 +71,7 @@ psql -h 127.0.0.1 -p 5432 -U docker
 select * from pg_replication_slots;
 ```
 
-Expected result:
+**Expected result:**
 
 slot_name | plugin | slot_type | datoid | database | active | active_pid | xmin | catalog_xmin | restart_lsn 
 -----------|--------|-----------|--------|----------|--------|------------|------|--------------|-------------
@@ -80,7 +80,7 @@ slot_name | plugin | slot_type | datoid | database | active | active_pid | xmin 
 Create slot on master:
 `select * from pg_create_physical_replication_slot('standby_replication_slot');`
 
-Expected result:
+**Expected result:**
 
 slot_name         | xlog_position 
 --------------------------|---------------
@@ -89,7 +89,7 @@ standby_replication_slot |
 After some seconds run command below to check if everything is fine.
 `select * from pg_replication_slots;`
 
-Expected result:
+**Expected result:**
 
 slot_name         | plugin | slot_type | datoid | database | active | active_pid | xmin | catalog_xmin | restart_lsn 
 --------------------------|--------|-----------|--------|----------|--------|------------|------|--------------|-------------
