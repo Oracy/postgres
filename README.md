@@ -9,6 +9,7 @@ To run this project follow steps below:
 ##### Prerequisites:
 
 ```bash
+sudo apt install -y git
 sudo apt install -y postgresql postgresql-contrib postgresql-client-common
 sudo /etc/init.d/postgresql stop
 ```
