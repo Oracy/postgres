@@ -8,6 +8,6 @@ RUN apt update && \
 # COPY ./Slave/postgresql.conf /postgresql.conf
 # COPY ./Slave/recovery.conf /recovery.conf
 
-COPY ./Scripts/init.sql /docker-entrypoint-initdb.d/
+# COPY ./Scripts/init.sql /docker-entrypoint-initdb.d/
 
 EXPOSE 5433
