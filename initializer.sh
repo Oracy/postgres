@@ -1,5 +1,5 @@
 echo 'Stopping containers "Master" and "Slave"' | tee -a ./logs/initializer.log
-docker stop master slave 1>> ./logs/initializer.log
+docker stop master slave 2>> ./logs/initializer.log
 if [ $? -eq 0 ]; then
     printf '\e[92mContainers Stopped \e[0m\n' | tee -a ./logs/initializer.log
 else
@@ -9,7 +9,7 @@ echo '#######################################################################'
 
 
 echo 'Removing containers "Master" and "Slave"' | tee -a ./logs/initializer.log
-docker rm master slave 1>> ./logs/initializer.log
+docker rm master slave 2>> ./logs/initializer.log
 if [ $? -eq 0 ]; then
     printf '\e[92mContainers Removed \e[0m\n' | tee -a ./logs/initializer.log
 else
